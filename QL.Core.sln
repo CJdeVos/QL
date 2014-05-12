@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL.Console", "QL.Console\QL.Console.csproj", "{CCDB5B0B-4E0D-4C63-ADC6-FB36D08BC09F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QL.Core", "QL.Core\QL.Core.csproj", "{819DC1EC-C4E7-4F00-9FE8-6810E51BC53E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CCDB5B0B-4E0D-4C63-ADC6-FB36D08BC09F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCDB5B0B-4E0D-4C63-ADC6-FB36D08BC09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCDB5B0B-4E0D-4C63-ADC6-FB36D08BC09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCDB5B0B-4E0D-4C63-ADC6-FB36D08BC09F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{819DC1EC-C4E7-4F00-9FE8-6810E51BC53E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{819DC1EC-C4E7-4F00-9FE8-6810E51BC53E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{819DC1EC-C4E7-4F00-9FE8-6810E51BC53E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{819DC1EC-C4E7-4F00-9FE8-6810E51BC53E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
