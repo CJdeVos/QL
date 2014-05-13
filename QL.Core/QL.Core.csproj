@@ -39,14 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cell.cs" />
     <Compile Include="CharExtension.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Range.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="__QLWorkSheetRange.cs" />
-    <Compile Include="QLWorkBook.cs" />
+    <Compile Include="WorkBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QLWorkSheet.cs" />
-    <Compile Include="QLWorkSheets.cs" />
+    <Compile Include="WorkSheet.cs" />
+    <Compile Include="WorkSheets.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
