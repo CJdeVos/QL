@@ -86,7 +86,6 @@ namespace QL.Core
             }
         }
 
-        private object __Value = null;
         public object Value
         {
             get
