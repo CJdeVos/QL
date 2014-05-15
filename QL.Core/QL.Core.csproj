@@ -44,10 +44,9 @@
     <Compile Include="Position.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="Data.cs" />
-    <Compile Include="__QLWorkSheetRange.cs" />
     <Compile Include="WorkBook.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkSheet.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WorkSheets.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

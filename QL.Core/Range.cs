@@ -90,39 +90,82 @@ namespace QL.Core
         {
             get
             {
-                return IsContiguous
-                    ? this.Sheet.Data[this.Start.Row, this.Start.Column].Value
-                    : Areas.First().Value;
+                return FirstCell().Value;
             }
             set
             {
-                if (IsContiguous)
-                    this.Sheet.Data[this.Start.Row, this.Start.Column].Value = value;
-                else
-                    Areas.First().Value = value;
+                this.AllCells(cell => {
+                    cell.Value = value; 
+                }); 
             }
         }
 
-        //private void Iterate(Action<int,int> fn)
-        //{
-        //    for (int areaIndx = 0; areaIndx < Areas.Count; areaIndx++)
-        //    {
-        //        Area a = Areas[areaIndx];
-        //        for (int rowIndx = a.Start.Row; rowIndx < (a.End.Row - a.Start.Row); rowIndx++)
-        //        {
-        //            for (int cellIndx = a.Start.Cell; cellIndx < (a.End.Cell - a.Start.Cell); cellIndx++)
-        //            {
-        //                // Act
-        //                fn(rowIndx, cellIndx);
-        //            }
-        //        }
-        //    }
-        //}
+
+        public string Formula
+        {
+            get
+            {
+                return this.FirstCell().Formula;
+            }
+            set
+            {
+                this.AllCells(cell => { 
+                    cell.Formula = value; 
+                });
+            }
+        }
+
+
+        internal void AllCells(Action<Cell> act)
+        {
+            if (IsContiguous)
+            {
+                var data = this.Sheet.Data;
+
+                int yStart = Math.Min(this.Start.Row, this.End.Row);
+                int yEnd = Math.Abs(this.Start.Row - this.End.Row)+yStart;
+
+                int xStart = Math.Min(this.Start.Column, this.End.Column);
+                int xEnd = Math.Abs(this.Start.Column - this.End.Column)+xStart;
+
+                for (int y = yStart; y <= yEnd; y++)
+                {
+                    for (int x = xStart; x <= xEnd; x++)
+                    {
+                        act(data[y, x]);
+                    }
+                }
+            }
+            else
+                Areas.ForEach(rng => rng.AllCells(act));
+        }
+
+        internal Cell FirstCell()
+        {
+            if (IsContiguous) return this.Sheet.Data[this.Start.Row, this.Start.Column];
+            return Areas.First().FirstCell();
+        }
+
+        internal Cell FirstCell(Action<Cell> act)
+        {
+            if (IsContiguous)
+            {
+                Cell cll = this.Sheet.Data[this.Start.Row, this.Start.Column];
+                act(cll);
+                return cll;
+            }
+            else
+                return Areas.First().FirstCell(act);
+        }
 
         public object[] GetValues()
         {
-            // return ALL values of ALL areas
-            return new object[]{0};
+            object[] r = new object[this.Count];
+            int cnt = 0;
+            AllCells(cell=>{
+                r[cnt++] = cell.Value;
+            });
+            return r;
         }
 
         private static readonly char[] dotcommasplit = new char[] { ';' };
