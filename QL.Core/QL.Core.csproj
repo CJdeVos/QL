@@ -42,7 +42,6 @@
     <Compile Include="CharExtension.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Range.cs" />
-    <Compile Include="__QLWorkSheetRange.cs" />
     <Compile Include="QLWorkBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QLWorkSheet.cs" />
