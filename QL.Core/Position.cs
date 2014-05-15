@@ -16,7 +16,7 @@ namespace QL.Core
             : this()
         {
             this.Row = row;
-            this.Cell = column;
+            this.Column = column;
         }
 
         public int Row
@@ -25,7 +25,7 @@ namespace QL.Core
             set;
         }
 
-        public int Cell
+        public int Column
         {
             get;
             set;
@@ -34,7 +34,7 @@ namespace QL.Core
         public override string ToString()
         {
             string s = "";
-            var v = Cell - Modifier;
+            var v = Column - Modifier;
             var vlast = (v % 26);
 
             while (vlast > 0)
@@ -87,32 +87,32 @@ namespace QL.Core
 
         public static Position operator +(Position p1, Position p2)
         {
-            return new Position(p1.Row + p2.Row, p1.Cell + p2.Cell);
+            return new Position(p1.Row + p2.Row, p1.Column + p2.Column);
         }
 
         public static bool operator <(Position p1, Position p2)
         {
-            return p1.Row < p2.Row && p1.Cell < p2.Cell;
+            return p1.Row < p2.Row && p1.Column < p2.Column;
         }
 
         public static bool operator >(Position p1, Position p2)
         {
-            return p1.Row > p2.Row && p1.Cell > p2.Cell;
+            return p1.Row > p2.Row && p1.Column > p2.Column;
         }
 
         public static bool operator ==(Position p1, Position p2)
         {
-            return p1.Row == p2.Row && p1.Cell == p2.Cell;
+            return p1.Row == p2.Row && p1.Column == p2.Column;
         }
 
         public static bool operator !=(Position p1, Position p2)
         {
-            return p1.Row != p2.Row || p1.Cell != p2.Cell;
+            return p1.Row != p2.Row || p1.Column != p2.Column;
         }
 
         public override int GetHashCode()
         {
-            return (Row * 16556) + Cell;
+            return (Row * 16556) + Column;
         }
 
         public override bool Equals(object obj)

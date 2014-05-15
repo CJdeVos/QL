@@ -8,17 +8,25 @@ namespace QL.Core
 {
     public class Range : IEnumerator<object>
     {
-        private Range(IEnumerable<Range> ranges)
+        private Range(WorkSheet sheet)
+        {
+            Sheet = sheet;
+        }
+
+        private Range(WorkSheet sheet, IEnumerable<Range> ranges)
+            : this(sheet)
         {
             Areas = new List<Range>(ranges);
         }
 
-        private Range(Position start)
+        private Range(WorkSheet sheet, Position start)
+            : this(sheet)
         {
             Start = start;
             End = start;
         }
-        private Range(Position start, Position end)
+        private Range(WorkSheet sheet, Position start, Position end)
+            : this(sheet)
         {
             if (start < end)
             {
@@ -32,6 +40,12 @@ namespace QL.Core
             }
         }
 
+        public WorkSheet Sheet
+        {
+            get;
+            private set;
+        }
+
         public readonly List<Range> Areas = null;
         private readonly Position Start, End;
 
@@ -43,17 +57,17 @@ namespace QL.Core
             }
         }
 
-        public Range this[int row, int cell]
+        public Range this[int row, int column]
         {
             get
             {
                 if(!IsContiguous)
-                    return Areas.First()[row, cell];
+                    return Areas.First()[row, column];
 
-                Position newPosition = Start + new Position(row, cell);
+                Position newPosition = Start + new Position(row, column);
                 if (newPosition > End)
                     throw new ArgumentOutOfRangeException("Range is not available in current range.");
-                return new Range(newPosition);
+                return new Range(this.Sheet, newPosition);
             }
         }
 
@@ -65,30 +79,27 @@ namespace QL.Core
                 if (!__Count.HasValue)
                 {
                     __Count = IsContiguous
-                        ? Math.Abs(Start.Row - End.Row) * Math.Abs(Start.Cell - End.Cell)
+                        ? Math.Abs(Start.Row - End.Row) * Math.Abs(Start.Column - End.Column)
                         : Areas.Sum(d => d.Count);
                 }
                 return __Count.Value;
             }
         }
 
-        private object __Value = null;
         public object Value
         {
             get
             {
-                // get first value
-                if (__Value == null)
-                {
-                    __Value = IsContiguous
-                        ? 10
-                        : Areas.Count; //.Sum(d => d.Value);
-                }
-                return __Value;
+                return IsContiguous
+                    ? this.Sheet.Data[this.Start.Row, this.Start.Column].Value
+                    : Areas.First().Value;
             }
             set
             {
-                __Value = value;
+                if (IsContiguous)
+                    this.Sheet.Data[this.Start.Row, this.Start.Column].Value = value;
+                else
+                    Areas.First().Value = value;
             }
         }
 
@@ -114,8 +125,9 @@ namespace QL.Core
             return new object[]{0};
         }
 
-        private static char[] dotcommasplit = new char[] { ';' };
-        public static Range FromString(string notation)
+        private static readonly char[] dotcommasplit = new char[] { ';' };
+        
+        public static Range FromString(WorkSheet sheet, string notation)
         {
             string[] separates = notation.Split(dotcommasplit, StringSplitOptions.RemoveEmptyEntries);
             bool isSingle = separates.Length == 1;
@@ -133,22 +145,22 @@ namespace QL.Core
 
                     if (poss[0] == poss[1])
                     {
-                        a = new Range(Position.FromString(poss[0]));
+                        a = new Range(sheet, Position.FromString(poss[0]));
                     }
                     else
                     {
-                        a = new Range(Position.FromString(poss[0]), Position.FromString(poss[1]));
+                        a = new Range(sheet, Position.FromString(poss[0]), Position.FromString(poss[1]));
                     }
                 }
                 else
                 {
-                    a = new Range(Position.FromString(sep));
+                    a = new Range(sheet, Position.FromString(sep));
                 }
                 if (isSingle)
                     return a;
                 rs[i++] = a;
             }
-            return new Range(rs);
+            return new Range(sheet, rs);
         }
 
         public override string ToString()

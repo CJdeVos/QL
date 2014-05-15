@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace QL.Core
 {
-    public class QLWorkSheets
+    public class WorkSheets
     {
-        private readonly Dictionary<string, QLWorkSheet> __workSheets = new Dictionary<string,QLWorkSheet>();
+        private readonly Dictionary<string, WorkSheet> __workSheets = new Dictionary<string, WorkSheet>();
 
-        public QLWorkSheet Add()
+        public WorkSheet Add()
         {
             return Add(NextName());
         }
 
-        public QLWorkSheet Add(string _Name)
+        public WorkSheet Add(string _Name)
         {
-            QLWorkSheet sheet = NewSheet();
+            WorkSheet sheet = NewSheet();
             __workSheets.Add(_Name, sheet);
             return sheet;
         }
 
-        private QLWorkSheet NewSheet()
+        private WorkSheet NewSheet()
         {
-            return new QLWorkSheet();
+            return new WorkSheet();
         }
 
         private string NextName()
