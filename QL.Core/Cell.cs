@@ -13,5 +13,11 @@ namespace QL.Core
             get;
             set;
         }
+
+        public string Formula
+        {
+            get;
+            set;
+        }
     }
 }

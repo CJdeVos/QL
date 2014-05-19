@@ -14,6 +14,11 @@ namespace QL.Core
         }
 
 
+        internal Data Data
+        {
+            get;
+            private set;
+        }
         /*public Range Cells
         {
             get
@@ -22,17 +27,10 @@ namespace QL.Core
             }
         }*/
 
-        internal Data Data
+        public Range GetRange(string notation)
         {
-            get;
-            private set;
-        }
-
-        public Range GetRange(string selector)
-        {
-            return Range.FromString(this, selector);
-            // parse selector to return range
-            //return new Range();
+            return Range.FromString(this, notation);
         }
     }
 }
+

@@ -21,6 +21,11 @@ namespace QL.ConsoleApp
             Console.WriteLine(sr2.Value);
 
 
+            Range srFrmula = sheet1.GetRange("E9");
+            srFrmula.Formula = "=A1 * 2";
+
+
+
             Position pos = Position.FromString("Z78");
             Console.WriteLine("({0}, {1}): {2}", pos.Row, pos.Column, pos.ToString());
 
