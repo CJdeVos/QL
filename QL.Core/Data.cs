@@ -6,31 +6,22 @@ using System.Threading.Tasks;
 
 namespace QL.Core
 {
-    public class Data
+    internal class Data
     {
-        private Dictionary<int, Cell> allCells = new Dictionary<int, Cell>();
+        private readonly Dictionary<Position, DataCell> _allCells = new Dictionary<Position, DataCell>();
 
-        public Cell this[Position position]
+        internal DataCell this[Position position]
         {
             get
             {
-                Cell cll = null;
-                int hshcd = position.GetHashCode();
-                if(!allCells.ContainsKey(hshcd)) {
-                    cll = new Cell();
-                    allCells.Add(hshcd, cll);
-                }
-                return allCells[hshcd];
+                if (_allCells.ContainsKey(position))
+                    return _allCells[position];
+                return null;
             }
-        }
-
-        public Cell this[int row, int column]
-        {
-            get
+            set
             {
-                return this[new Position(row, column)];
+                _allCells[position] = value;
             }
         }
-
     }
 }

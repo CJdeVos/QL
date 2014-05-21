@@ -13,19 +13,11 @@ namespace QL.Core
             Data = new Data();
         }
 
-
         internal Data Data
         {
             get;
             private set;
         }
-        /*public Range Cells
-        {
-            get
-            {
-                return new Range();
-            }
-        }*/
 
         public Range GetRange(string notation)
         {

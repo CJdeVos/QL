@@ -14,16 +14,19 @@ namespace QL.ConsoleApp
         {
             WorkBook b = new WorkBook();
             var sheet1 = b.WorkSheets.Add("Sheet1");
-            Range sr1 = sheet1.GetRange("A1");
+            Range sr1 = sheet1.GetRange("A1:K4");
             sr1.Value = 90;
-            Range sr2 = sheet1.GetRange("A1");
+            Range sr2 = sheet1.GetRange("A2");
+            sr2.Value = 190;
             Console.WriteLine(sr1.Value);
             Console.WriteLine(sr2.Value);
 
+            Range sr3 = sheet1.GetRange("A1:K9");
+            object v = sr3.GetValues();
+            Console.WriteLine(String.Join(", ", sr3.GetValues().Select(d => (d ?? "null").ToString())));
 
             Range srFrmula = sheet1.GetRange("E9");
-            srFrmula.Formula = "=A1 * 2";
-
+            srFrmula.Formula = "= A1 * 2";
 
 
             Position pos = Position.FromString("Z78");

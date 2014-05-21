@@ -41,6 +41,9 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="CharExtension.cs" />
+    <Compile Include="DataCell.cs" />
+    <Compile Include="DataCellNavigator.cs" />
+    <Compile Include="ICell.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="Data.cs" />

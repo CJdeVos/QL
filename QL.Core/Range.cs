@@ -36,7 +36,7 @@ namespace QL.Core
             else
             {
                 Start = end;
-                End = Start;
+                End = start;
             }
         }
 
@@ -79,7 +79,7 @@ namespace QL.Core
                 if (!__Count.HasValue)
                 {
                     __Count = IsContiguous
-                        ? Math.Abs(Start.Row - End.Row) * Math.Abs(Start.Column - End.Column)
+                        ? (Math.Abs(Start.Row - End.Row)+1) * (Math.Abs(Start.Column - End.Column)+1)
                         : Areas.Sum(d => d.Count);
                 }
                 return __Count.Value;
@@ -120,21 +120,31 @@ namespace QL.Core
         {
             if (IsContiguous)
             {
-                var data = this.Sheet.Data;
-
-                int yStart = Math.Min(this.Start.Row, this.End.Row);
-                int yEnd = Math.Abs(this.Start.Row - this.End.Row)+yStart;
-
-                int xStart = Math.Min(this.Start.Column, this.End.Column);
-                int xEnd = Math.Abs(this.Start.Column - this.End.Column)+xStart;
-
-                for (int y = yStart; y <= yEnd; y++)
+                DataCellNavigator nav = new DataCellNavigator(this.Sheet, this.Start, this.End);
+                
+                foreach(Cell cll in nav.All())
                 {
-                    for (int x = xStart; x <= xEnd; x++)
-                    {
-                        act(data[y, x]);
-                    }
+                    act(cll);
                 }
+
+                //return;
+                
+                //var data = this.Sheet.Data;
+
+                //int yStart = Math.Min(this.Start.Row, this.End.Row);
+                //int yEnd = Math.Abs(this.Start.Row - this.End.Row)+yStart;
+
+                //int xStart = Math.Min(this.Start.Column, this.End.Column);
+                //int xEnd = Math.Abs(this.Start.Column - this.End.Column)+xStart;
+
+
+                //for (int y = yStart; y <= yEnd; y++)
+                //{
+                //    for (int x = xStart; x <= xEnd; x++)
+                //    {
+                //        act(data[y, x]);
+                //    }
+                //}
             }
             else
                 Areas.ForEach(rng => rng.AllCells(act));
@@ -142,7 +152,12 @@ namespace QL.Core
 
         internal Cell FirstCell()
         {
-            if (IsContiguous) return this.Sheet.Data[this.Start.Row, this.Start.Column];
+            if (IsContiguous)
+            {
+                var nav = new DataCellNavigator(this.Sheet, this.Start, this.Start);
+                return nav.All().FirstOrDefault();
+                //return this.Sheet.Data[this.Start.Row, this.Start.Column];
+            }
             return Areas.First().FirstCell();
         }
 
@@ -150,8 +165,10 @@ namespace QL.Core
         {
             if (IsContiguous)
             {
-                Cell cll = this.Sheet.Data[this.Start.Row, this.Start.Column];
+                var nav = new DataCellNavigator(this.Sheet, this.Start, this.Start);
+                Cell cll = nav.All().FirstOrDefault();
                 act(cll);
+
                 return cll;
             }
             else

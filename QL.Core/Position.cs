@@ -92,12 +92,12 @@ namespace QL.Core
 
         public static bool operator <(Position p1, Position p2)
         {
-            return p1.Row < p2.Row && p1.Column < p2.Column;
+            return p1.Row <= p2.Row && p1.Column <= p2.Column;
         }
 
         public static bool operator >(Position p1, Position p2)
         {
-            return p1.Row > p2.Row && p1.Column > p2.Column;
+            return p1.Row >= p2.Row && p1.Column >= p2.Column;
         }
 
         public static bool operator ==(Position p1, Position p2)
